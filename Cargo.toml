@@ -1,0 +1,9 @@
+[package]
+
+name = "ramaze"
+version = "0.0.1"
+authors = [ "Guewen Baconnier <guewen.baconnier@gmail.com>" ]
+
+[[bin]]
+
+name = "ramaze"
