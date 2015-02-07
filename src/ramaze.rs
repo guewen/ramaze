@@ -50,6 +50,18 @@ struct Door {
     to: Location,
 }
 
+trait MazeBuilder {
+    fn build(&self, width: u32, height: u32) -> MazeGrid;
+}
+
+struct MazeDFSBuilder;
+
+impl MazeBuilder for MazeDFSBuilder {
+    fn build(&self, width: u32, height: u32) -> MazeGrid {
+        MazeGrid::new(width, height)
+    }
+}
+
 struct MazeGrid {
     width: u32,
     height: u32,
@@ -101,6 +113,6 @@ fn main() {
     println!("{:?}", loc);
     let new_loc = loc.relative_move(Move::from_direction(Direction::South));
     println!("{:?}", new_loc);
-    let maze = MazeGrid::new(16, 16);
+    let maze = MazeDFSBuilder.build(16, 16);
     maze.print();
 }
