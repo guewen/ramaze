@@ -1,3 +1,4 @@
+#![feature(core)]
 #![feature(hash)]
 
 use std::fmt;
@@ -56,6 +57,10 @@ struct MazeGrid {
     visited: HashSet<Location>,
 }
 
+trait Printable {
+    fn print(&self);
+}
+
 impl MazeGrid {
     fn new(width: u32, height: u32) -> MazeGrid {
         MazeGrid {
@@ -67,9 +72,23 @@ impl MazeGrid {
     }
 }
 
-impl fmt::Display for MazeGrid {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "MazeGrid ({}, {})", self.width, self.height)
+impl Printable for MazeGrid {
+    fn print(&self) {
+        // top line
+        for row in 0..self.width {
+            print!("+---");
+        }
+        println!("+");
+        for col in 0..self.height {
+            for row in 0..self.width {
+                print!("|   ");
+            }
+            println!("|");
+            for row in 0..self.width {
+                print!("+---");
+            }
+            println!("+");
+        }
     }
 }
 
@@ -82,6 +101,6 @@ fn main() {
     println!("{:?}", loc);
     let new_loc = loc.relative_move(Move::from_direction(Direction::South));
     println!("{:?}", new_loc);
-    let maze = MazeGrid::new(32, 32);
-    println!("{}", maze);
+    let maze = MazeGrid::new(16, 16);
+    maze.print();
 }
