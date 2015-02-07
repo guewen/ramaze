@@ -5,6 +5,17 @@ struct Move {
     dy: i8,
 }
 
+impl Move {
+    fn from_direction(dir: Direction) -> Move {
+        match dir {
+            Direction::North => Move { dx:  0, dy:  1 },
+            Direction::East  => Move { dx:  1, dy:  0 },
+            Direction::West  => Move { dx: -1, dy:  0 },
+            Direction::South => Move { dx:  0, dy: -1 },
+        }
+    }
+}
+
 impl fmt::Display for Move {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, {})", self.dx, self.dy)
@@ -68,23 +79,14 @@ impl fmt::Display for MazeGrid {
     }
 }
 
-fn move_from_direction(dir: Direction) -> Move {
-    match dir {
-        Direction::North => Move { dx:  0, dy:  1 },
-        Direction::East  => Move { dx:  1, dy:  0 },
-        Direction::West  => Move { dx: -1, dy:  0 },
-        Direction::South => Move { dx:  0, dy: -1 },
-    }
-}
-
 fn main() {
-    println!("{}", move_from_direction(Direction::North));
-    println!("{}", move_from_direction(Direction::East));
-    println!("{}", move_from_direction(Direction::West));
-    println!("{}", move_from_direction(Direction::South));
+    println!("{}", Move::from_direction(Direction::North));
+    println!("{}", Move::from_direction(Direction::East));
+    println!("{}", Move::from_direction(Direction::West));
+    println!("{}", Move::from_direction(Direction::South));
     let loc = Location { x: 5, y: 2 };
     println!("Location: {}", loc);
-    let new_loc = loc.relative_move(move_from_direction(Direction::South));
+    let new_loc = loc.relative_move(Move::from_direction(Direction::South));
     println!("Location: {}", new_loc);
     let maze = MazeGrid::new(32, 32);
     println!("{}", maze);
