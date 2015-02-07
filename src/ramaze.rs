@@ -39,6 +39,35 @@ enum Direction {
     South,
 }
 
+struct Door {
+    from: Location,
+    to: Location,
+}
+
+struct MazeGrid {
+    width: u32,
+    height: u32,
+    doors: Vec<Door>,
+    visited: Vec<Location>,
+}
+
+impl MazeGrid {
+    fn new(width: u32, height: u32) -> MazeGrid {
+        MazeGrid {
+            width: width,
+            height: height,
+            doors: vec![],
+            visited: vec![],
+        }
+    }
+}
+
+impl fmt::Display for MazeGrid {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "MazeGrid ({}, {})", self.width, self.height)
+    }
+}
+
 fn move_from_direction(dir: Direction) -> Move {
     match dir {
         Direction::North => Move { dx:  0, dy:  1 },
@@ -57,4 +86,6 @@ fn main() {
     println!("Location: {}", loc);
     let new_loc = loc.relative_move(move_from_direction(Direction::South));
     println!("Location: {}", new_loc);
+    let maze = MazeGrid::new(32, 32);
+    println!("{}", maze);
 }
