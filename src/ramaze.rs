@@ -1,7 +1,6 @@
 #![feature(core)]
 #![feature(hash)]
 
-use std::fmt;
 use std::collections::HashSet;
 
 #[derive(Debug)]
@@ -58,7 +57,9 @@ struct MazeDFSBuilder;
 
 impl MazeBuilder for MazeDFSBuilder {
     fn build(&self, width: u32, height: u32) -> MazeGrid {
-        MazeGrid::new(width, height)
+        let mut maze = MazeGrid::new(width, height);
+        maze.mark_visited(Location { x: 1, y: 3 });
+        maze
     }
 }
 
@@ -82,6 +83,14 @@ impl MazeGrid {
             visited: HashSet::new(),
         }
     }
+
+    fn add_door(&mut self, door: Door) {
+        self.doors.insert(door);
+    }
+
+    fn mark_visited(&mut self, location: Location) {
+        self.visited.insert(location);
+    }
 }
 
 impl Printable for MazeGrid {
@@ -91,9 +100,13 @@ impl Printable for MazeGrid {
             print!("+---");
         }
         println!("+");
-        for _ in 0..self.height {
-            for _ in 0..self.width {
-                print!("|   ");
+        for row in 0..self.height {
+            for col in 0..self.width {
+                if self.visited.contains(&Location { x: col, y: row }) {
+                    print!("| x ");
+                } else {
+                    print!("|   ");
+                }
             }
             println!("|");
             for _ in 0..self.width {
