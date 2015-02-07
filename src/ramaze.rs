@@ -72,8 +72,8 @@ fn move_from_direction(dir: Direction) -> Move {
     match dir {
         Direction::North => Move { dx:  0, dy:  1 },
         Direction::East  => Move { dx:  1, dy:  0 },
-        Direction::West  => Move { dx:  0, dy: -1 },
-        Direction::South => Move { dx: -1, dy:  0 },
+        Direction::West  => Move { dx: -1, dy:  0 },
+        Direction::South => Move { dx:  0, dy: -1 },
     }
 }
 
