@@ -1,4 +1,7 @@
+#![feature(hash)]
+
 use std::fmt;
+use std::collections::HashSet;
 
 struct Move {
     dx: i8,
@@ -16,12 +19,7 @@ impl Move {
     }
 }
 
-impl fmt::Display for Move {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "({}, {})", self.dx, self.dy)
-    }
-}
-
+#[derive(Hash, Eq, PartialEq, Debug)]
 struct Location {
     x: u32,
     y: u32,
@@ -50,6 +48,7 @@ enum Direction {
     South,
 }
 
+#[derive(Hash, Eq, PartialEq, Debug)]
 struct Door {
     from: Location,
     to: Location,
@@ -58,8 +57,8 @@ struct Door {
 struct MazeGrid {
     width: u32,
     height: u32,
-    doors: Vec<Door>,
-    visited: Vec<Location>,
+    doors: HashSet<Door>,
+    visited: HashSet<Location>,
 }
 
 impl MazeGrid {
@@ -67,8 +66,8 @@ impl MazeGrid {
         MazeGrid {
             width: width,
             height: height,
-            doors: vec![],
-            visited: vec![],
+            doors: HashSet::new(),
+            visited: HashSet::new(),
         }
     }
 }
