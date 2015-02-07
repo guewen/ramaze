@@ -75,16 +75,16 @@ impl MazeGrid {
 impl Printable for MazeGrid {
     fn print(&self) {
         // top line
-        for row in 0..self.width {
+        for _ in 0..self.width {
             print!("+---");
         }
         println!("+");
-        for col in 0..self.height {
-            for row in 0..self.width {
+        for _ in 0..self.height {
+            for _ in 0..self.width {
                 print!("|   ");
             }
             println!("|");
-            for row in 0..self.width {
+            for _ in 0..self.width {
                 print!("+---");
             }
             println!("+");
