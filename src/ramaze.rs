@@ -3,6 +3,7 @@
 use std::fmt;
 use std::collections::HashSet;
 
+#[derive(Debug)]
 struct Move {
     dx: i8,
     dy: i8,
@@ -32,12 +33,6 @@ trait Movable {
 impl Movable for Location {
     fn relative_move(&self, direction: Move) -> Location {
         Location { x: self.x + direction.dx as u32, y: self.y + direction.dy as u32}
-    }
-}
-
-impl fmt::Display for Location {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "({}, {})", self.x, self.y)
     }
 }
 
@@ -79,14 +74,14 @@ impl fmt::Display for MazeGrid {
 }
 
 fn main() {
-    println!("{}", Move::from_direction(Direction::North));
-    println!("{}", Move::from_direction(Direction::East));
-    println!("{}", Move::from_direction(Direction::West));
-    println!("{}", Move::from_direction(Direction::South));
+    println!("{:?}", Move::from_direction(Direction::North));
+    println!("{:?}", Move::from_direction(Direction::East));
+    println!("{:?}", Move::from_direction(Direction::West));
+    println!("{:?}", Move::from_direction(Direction::South));
     let loc = Location { x: 5, y: 2 };
-    println!("Location: {}", loc);
+    println!("{:?}", loc);
     let new_loc = loc.relative_move(Move::from_direction(Direction::South));
-    println!("Location: {}", new_loc);
+    println!("{:?}", new_loc);
     let maze = MazeGrid::new(32, 32);
     println!("{}", maze);
 }
