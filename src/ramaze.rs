@@ -1,13 +1,13 @@
 use std::fmt;
 
 struct Move {
-    x: i8,
-    y: i8,
+    dx: i8,
+    dy: i8,
 }
 
 impl fmt::Display for Move {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "({}, {})", self.x, self.y)
+        write!(f, "({}, {})", self.dx, self.dy)
     }
 }
 
@@ -17,12 +17,12 @@ struct Location {
 }
 
 trait Movable {
-    fn relative_move(&self, coords: Move) -> Location;
+    fn relative_move(&self, direction: Move) -> Location;
 }
 
 impl Movable for Location {
-    fn relative_move(&self, coords: Move) -> Location {
-        Location { x: self.x + coords.x as u32, y: self.y + coords.y as u32}
+    fn relative_move(&self, direction: Move) -> Location {
+        Location { x: self.x + direction.dx as u32, y: self.y + direction.dy as u32}
     }
 }
 
@@ -41,10 +41,10 @@ enum Direction {
 
 fn move_from_direction(dir: Direction) -> Move {
     match dir {
-        Direction::North => Move { x:  0, y:  1 },
-        Direction::East  => Move { x:  1, y:  0 },
-        Direction::West  => Move { x:  0, y: -1 },
-        Direction::South => Move { x: -1, y:  0 },
+        Direction::North => Move { dx:  0, dy:  1 },
+        Direction::East  => Move { dx:  1, dy:  0 },
+        Direction::West  => Move { dx:  0, dy: -1 },
+        Direction::South => Move { dx: -1, dy:  0 },
     }
 }
 
