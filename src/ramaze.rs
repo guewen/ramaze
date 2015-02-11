@@ -1,6 +1,7 @@
 #![feature(core)]
 #![feature(hash)]
 
+extern crate test;
 use std::collections::HashSet;
 
 #[derive(Debug)]
@@ -49,11 +50,11 @@ struct Door {
     to: Location,
 }
 
-trait MazeBuilder {
+pub trait MazeBuilder {
     fn build(&self, width: u32, height: u32) -> MazeGrid;
 }
 
-struct MazeDFSBuilder;
+pub struct MazeDFSBuilder;
 
 impl MazeBuilder for MazeDFSBuilder {
     fn build(&self, width: u32, height: u32) -> MazeGrid {
@@ -63,14 +64,14 @@ impl MazeBuilder for MazeDFSBuilder {
     }
 }
 
-struct MazeGrid {
+pub struct MazeGrid {
     width: u32,
     height: u32,
     doors: HashSet<Door>,
-    visited: HashSet<Location>,
+    visited: HashSet<Location>,  // move in the builder and add a stack for the path
 }
 
-trait Printable {
+pub trait Printable {
     fn print(&self);
 }
 
@@ -128,4 +129,21 @@ fn main() {
     println!("{:?}", new_loc);
     let maze = MazeDFSBuilder.build(16, 16);
     maze.print();
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use test::Bencher;
+
+    #[test]
+    fn test_build_dfs_maze() {
+        let maze = MazeDFSBuilder.build(16, 16);
+        maze.print();
+    }
+
+    #[bench]
+    fn bench_build_dfs_maze(b: &mut Bencher) {
+        b.iter(|| MazeDFSBuilder.build(1000, 1000));
+    }
 }
